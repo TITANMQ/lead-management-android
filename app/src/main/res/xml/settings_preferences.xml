@@ -9,6 +9,21 @@
             android:summary="current location"
             android:dialogMessage="change server location using this entry box."
             android:defaultValue="Default value"/>
+
+
+
+
+        <SwitchPreference
+            android:key="dark_theme"
+            android:title="Toggle mode"
+            android:defaultValue="false"
+            />
+
+        <Preference
+            android:key= "@string/logout"
+            android:title="Logout"
+            android:summary="Logout from app"/>
+
     </android.support.v7.preference.PreferenceCategory>
 
 </android.support.v7.preference.PreferenceScreen>

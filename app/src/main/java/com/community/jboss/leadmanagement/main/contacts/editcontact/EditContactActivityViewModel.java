@@ -5,6 +5,7 @@ import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 
 import com.community.jboss.leadmanagement.data.daos.ContactDao;
@@ -64,14 +65,18 @@ public class EditContactActivityViewModel extends AndroidViewModel {
         return contactNumberDao.getContactNumber(number);
     }
 
-    public void saveContact(String name) {
+    public void saveContact(String name, Drawable avatar, String email) {
         final ContactDao dao = DbUtil.contactDao(getApplication());
 
         Contact contact = mContact.getValue();
         if (contact == null) {
             contact = new Contact(name);
+            contact.setAvatar(avatar);
+            contact.setEmail(email);
         } else {
             contact.setName(name);
+            contact.setAvatar(avatar);
+            contact.setEmail(email);
         }
 
         if (mIsNewContact) {

@@ -1,5 +1,6 @@
 package com.community.jboss.leadmanagement;
 
+
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -9,8 +10,10 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
+
 
 import com.community.jboss.leadmanagement.main.contacts.editcontact.EditContactActivity;
 
@@ -19,6 +22,7 @@ public class CallReceiver extends BroadcastReceiver {
 
     private String number;
     private Context mContext;
+
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -40,11 +44,17 @@ public class CallReceiver extends BroadcastReceiver {
 
         if (state.equals(TelephonyManager.EXTRA_STATE_RINGING)) {
             showNotification();
+
         } else if (state.equals(TelephonyManager.EXTRA_STATE_IDLE)) {
             hideNotification();
+            showEndCallNotification(mContext);
         } else if (state.equals(TelephonyManager.EXTRA_STATE_OFFHOOK)) {
             showNotification();
+
         }
+
+
+
     }
 
     private void hideNotification() {
@@ -86,6 +96,50 @@ public class CallReceiver extends BroadcastReceiver {
                 manager.createNotificationChannel(mChannel);
             }
             manager.notify(ID, notification.build());
+        }
+
+
+    }
+
+
+
+
+
+    private void showEndCallNotification(Context context) {
+        String CHANNEL_ID = "lead-management-ch";
+
+        Intent saveContact = new Intent(context.getApplicationContext(), EditContactActivity.class);
+        saveContact.putExtra(EditContactActivity.INTENT_EXTRA_CONTACT_NUM, number);
+
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+        stackBuilder.addNextIntentWithParentStack(saveContact);
+
+        PendingIntent saveContactPendingIntent =
+                stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+
+
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_call_black_24dp)
+                .setContentTitle("Call Ended")
+                .setContentText("Do you want to save what you discussed with this Client.")
+                .setAutoCancel(false)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .addAction(R.drawable.ic_call_black_24dp, "Yes",
+                        saveContactPendingIntent);
+
+        final NotificationManager manager =
+                (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+        if (manager != null) {
+            manager.cancel(ID);
+            // check build version
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                CharSequence name = "Lead-Management-Channel";
+                int importance = NotificationManager.IMPORTANCE_HIGH;
+                NotificationChannel mChannel = new NotificationChannel(CHANNEL_ID, name, importance);
+                manager.createNotificationChannel(mChannel);
+            }
+            manager.notify(ID, mBuilder.build());
+
         }
     }
 }

@@ -80,5 +80,8 @@ public class SettingsActivity extends FragmentActivity {
         finish();
 
         startActivity(intent);
+
+        Intent i = new Intent(SettingsActivity.this, MainActivity.class);
+        startActivity(i);
     }
 }
