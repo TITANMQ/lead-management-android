@@ -20,7 +20,10 @@ public class SettingsActivity extends FragmentActivity {
     @BindView(R.id.settings_bar)
     Toolbar toolbar;
 
+
     public static final String PREF_DARK_THEME = "dark_theme";
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
