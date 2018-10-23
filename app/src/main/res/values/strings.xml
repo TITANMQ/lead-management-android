@@ -20,6 +20,8 @@
     <string name="name">Name</string>
     <string name="phone">Phone</string>
 
+    <string name="logout">Logout</string>
+
 
     <string name="title_add_contact">Add Contact</string>
     <string name="title_edit_contact">Edit Contact</string>
