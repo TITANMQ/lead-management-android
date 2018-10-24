@@ -29,6 +29,10 @@ public class EditContactActivity extends AppCompatActivity {
     EditText contactNameField;
     @BindView(R.id.contact_number_field)
     EditText contactNumberField;
+    @BindView(R.id.contact_email_field)
+    EditText contactEmailField;
+    @BindView(R.id.contact_notes_field)
+    EditText contactNotesField;
 
     private EditContactActivityViewModel mViewModel;
 
@@ -115,7 +119,8 @@ public class EditContactActivity extends AppCompatActivity {
     private void saveContact() {
         // Check is Name or Password is empty
         if (!checkEditText(contactNameField, "Please enter name")||!checkNo(contactNumberField,"Enter Correct no.")
-                || !checkEditText(contactNumberField, "Please enter number")) {
+                || !checkEditText(contactNumberField, "Please enter number")||
+                !checkEditText(contactEmailField, "Please enter email address")) {
             return;
         }
 
@@ -125,6 +130,8 @@ public class EditContactActivity extends AppCompatActivity {
 
         final String number = contactNumberField.getText().toString();
         mViewModel.saveContactNumber(number);
+        final String email = contactEmailField.getText().toString();
+
 
         finish();
     }
