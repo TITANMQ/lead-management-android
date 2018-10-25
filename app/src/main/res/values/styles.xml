@@ -33,6 +33,8 @@
         <item name="colorAccent">@color/darkColorAccent</item>
     </style>
 
+
+    
     <style name="AppTheme.BG" parent="AppTheme.Dark">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
