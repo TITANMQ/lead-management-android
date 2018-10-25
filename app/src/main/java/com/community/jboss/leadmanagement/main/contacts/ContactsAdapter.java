@@ -1,21 +1,28 @@
 package com.community.jboss.leadmanagement.main.contacts;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Build;
 import android.preference.PreferenceManager;
+import android.support.transition.Explode;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.graphics.Color;
@@ -43,6 +50,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
     private ContactsAdapter mAdapter;
     public AdapterListener mListener;
     private List<Contact> spareData;
+
 
     public ContactsAdapter(AdapterListener listener) {
         mListener = listener;
@@ -121,9 +129,10 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
         TextView name;
         @BindView(R.id.contact_number)
         TextView number;
+        @BindView(R.id.contact_avatar)
+        ImageView avatar;
         @BindView(R.id.contact_delete)
         ImageButton deleteButton;
-
 
         private Contact mContact;
         private Context mContext;
@@ -151,9 +160,11 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
         void bind(Contact contact) {
             mContact = contact;
 
-            // TODO add contact avatar
+
+            avatar.setImageBitmap(contact.getAvatarBitmap());
             name.setText(contact.getName());
             number.setText(getNumber());
+
         }
 
         /**
@@ -172,6 +183,9 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
         public void onClick(View view) {
             final Context context = view.getContext();
 
+
+
+
             Dialog detailDialog;
             detailDialog = new Dialog(context);
 
@@ -182,9 +196,11 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
             Button btnEdit;
             Button btnCall;
             Button btnMsg;
+            ImageView avatarImg;
             LinearLayout layout;
 
             detailDialog.setContentView(R.layout.popup_detail);
+            avatarImg = detailDialog.findViewById(R.id.popup_avatar);
             txtClose = detailDialog.findViewById(R.id.txt_close);
             btnEdit = detailDialog.findViewById(R.id.btn_edit);
             popupName = detailDialog.findViewById(R.id.popup_name);
@@ -194,6 +210,8 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
             mail = detailDialog.findViewById(R.id.popupMail);
             layout = detailDialog.findViewById(R.id.popupLayout);
 
+
+
             if(mPref.getBoolean(PREF_DARK_THEME,false)){
                 layout.setBackgroundColor(Color.parseColor("#303030"));
                 popupName.setTextColor(Color.WHITE);
@@ -202,8 +220,10 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
                 txtClose.setBackground(mContext.getResources().getDrawable(R.drawable.ic_close_white));
             }
 
+            avatarImg.setImageBitmap(mContact.getAvatarBitmap());
             popupName.setText(name.getText());
             contactNum.setText(number.getText());
+            mail.setText(mContact.getEmail());
 
             txtClose.setOnClickListener(view1 -> detailDialog.dismiss());
 
@@ -212,12 +232,16 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
                 public void onClick(View view) {
                     final Intent intent = new Intent(context, EditContactActivity.class);
                     intent.putExtra(EditContactActivity.INTENT_EXTRA_CONTACT_NUM, number.getText().toString());
+
+
+
                     context.startActivity(intent);
                 }
             });
 
 
             btnCall.setOnClickListener(new View.OnClickListener() {
+                @SuppressLint("MissingPermission")
                 @Override
                 public void onClick(View view) {
                     if(permManager.permissionStatus(Manifest.permission.CALL_PHONE)) {
@@ -237,6 +261,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
                             + number.getText().toString())));
                 }
             });
+
 
             detailDialog.show();
 
