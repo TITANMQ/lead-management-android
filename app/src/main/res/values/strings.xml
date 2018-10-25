@@ -20,6 +20,7 @@
     <string name="name">Name</string>
     <string name="phone">Phone</string>
     <string name="notes">Call notes</string>
+    <string name="query">Query </string>
 
     <string name="notification_Save">Save Contact </string>
 
