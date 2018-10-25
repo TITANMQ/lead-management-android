@@ -53,6 +53,7 @@
             android:theme="@style/AppTheme" />
         <activity android:name=".main.contacts.importcontact.ImportContactActivity"
             android:parentActivityName=".main.MainActivity"/>
+        <activity android:name=".main.contacts.editcontact.AvatarViewActivity" />
     </application>
 
 </manifest>
