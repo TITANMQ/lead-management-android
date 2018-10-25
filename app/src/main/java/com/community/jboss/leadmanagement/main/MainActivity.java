@@ -53,6 +53,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import timber.log.Timber;
+
 import static com.community.jboss.leadmanagement.SettingsActivity.PREF_DARK_THEME;
 
 public class MainActivity extends BaseActivity
@@ -72,7 +73,7 @@ public class MainActivity extends BaseActivity
     private static final int RC_SIGN_IN = 9001;
     private FirebaseAuth mAuth;
     private GoogleSignInClient mGoogleSignInClient;
-
+    private boolean loggedIn = false;
 
     private MainActivityViewModel mViewModel;
     private PermissionManager permissionManager;
@@ -130,6 +131,9 @@ public class MainActivity extends BaseActivity
         mAuth = FirebaseAuth.getInstance();
 
 
+
+
+
         permissionManager = new PermissionManager(this, this);
         if (!permissionManager.permissionStatus(Manifest.permission.READ_PHONE_STATE)) {
             permissionManager.requestPermission(ID, Manifest.permission.READ_PHONE_STATE);
@@ -182,7 +186,7 @@ public class MainActivity extends BaseActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_settings ) {
             startActivity(new Intent(this, SettingsActivity.class));
             return true;
         }else if( id == R.id.action_import ){
@@ -200,32 +204,37 @@ public class MainActivity extends BaseActivity
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         final MainActivityViewModel.NavigationItem navigationItem;
-        switch (item.getItemId()) {
-            case R.id.nav_contacts:
-                navigationItem = MainActivityViewModel.NavigationItem.CONTACTS;
-                break;
-            case R.id.nav_groups:
-                navigationItem = MainActivityViewModel.NavigationItem.GROUPS;
-                break;
-            case R.id.nav_settings:
-                navigationItem = MainActivityViewModel.NavigationItem.SETTINGS;
-                break;
-            case R.id.toggle_theme:
-                darkTheme(true);
-                navigationItem = MainActivityViewModel.NavigationItem.CONTACTS;
-                break;
-            case R.id.light_theme:
-                darkTheme(false);
-                navigationItem = MainActivityViewModel.NavigationItem.CONTACTS;
-                break;
-            default:
-                Timber.e("Failed to resolve selected navigation item id");
-                throw new IllegalArgumentException();
+        if(loggedIn) {
+            switch (item.getItemId()) {
+                case R.id.nav_contacts:
+                    navigationItem = MainActivityViewModel.NavigationItem.CONTACTS;
+                    break;
+                case R.id.nav_groups:
+                    navigationItem = MainActivityViewModel.NavigationItem.GROUPS;
+                    break;
+                case R.id.nav_settings:
+                    navigationItem = MainActivityViewModel.NavigationItem.SETTINGS;
+                    break;
+                case R.id.toggle_theme:
+                    darkTheme(true);
+                    navigationItem = MainActivityViewModel.NavigationItem.CONTACTS;
+                    break;
+                case R.id.light_theme:
+                    darkTheme(false);
+                    navigationItem = MainActivityViewModel.NavigationItem.CONTACTS;
+                    break;
+                default:
+                    Timber.e("Failed to resolve selected navigation item id");
+                    throw new IllegalArgumentException();
 
-        }
-        mViewModel.setSelectedNavItem(navigationItem);
+            }
+            mViewModel.setSelectedNavItem(navigationItem);
 
-        drawer.closeDrawer(GravityCompat.START);
+            drawer.closeDrawer(GravityCompat.START);
+        }else
+            {
+                signIn();
+            }
         return true;
     }
 
@@ -265,6 +274,7 @@ public class MainActivity extends BaseActivity
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
         updateUI(currentUser);
+        loggedIn = mAuth.getCurrentUser() != null;
     }
     // [END on_start_check_user]
 
@@ -279,6 +289,7 @@ public class MainActivity extends BaseActivity
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 firebaseAuthWithGoogle(account);
+
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
                 Log.w(TAG, "Google sign in failed", e);
@@ -302,12 +313,14 @@ public class MainActivity extends BaseActivity
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+                            loggedIn = true;
                             updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
                             //Snackbar.make(findViewById(R.id.main_layout), "Authentication Failed.", Snackbar.LENGTH_SHORT).show();
                             Toast.makeText(getApplicationContext(), "Authentication failed", Toast.LENGTH_SHORT ).show();
+                            loggedIn = false;
                             updateUI(null);
                         }
                         // [START_EXCLUDE]
