@@ -27,6 +27,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             android:gravity="center_vertical"
             android:orientation="vertical">
 
@@ -35,7 +36,18 @@
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:layout_gravity="center"
-                android:src="@drawable/baseline_person_black_18dp" />
+                android:src="@drawable/ic_person_grey"
+                android:layout_margin="8dp"/>
+            <Button
+                android:id="@+id/select_image_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Select Image"
+                android:background="@color/darkColorPrimary"
+                android:textColor="@color/logo_white"
+                android:layout_gravity="center"
+                android:onClick="onClick"
+                />
 
 
         </LinearLayout>
@@ -49,8 +61,6 @@
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_marginEnd="@dimen/activity_horizontal_margin"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:src="@drawable/baseline_person_black_18dp" />
 
             <EditText
@@ -59,10 +69,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginEnd="30dp"
+                android:layout_marginRight="30dp"
                 android:hint="@string/name"
-                android:inputType="text" />
+                android:inputType="text"/>
 
         </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -74,8 +87,6 @@
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_marginEnd="@dimen/activity_horizontal_margin"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:src="@drawable/baseline_phone_black_18dp" />
 
             <EditText
@@ -85,6 +96,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginEnd="30dp"
+                android:layout_marginRight="30dp"
                 android:hint="@string/phone"
                 android:inputType="number" />
 
@@ -100,8 +113,6 @@
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_marginEnd="@dimen/activity_horizontal_margin"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:src="@drawable/baseline_mail_black_18dp" />
 
             <EditText
@@ -111,6 +122,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginEnd="30dp"
+                android:layout_marginRight="30dp"
                 android:hint="@string/email"
                 android:inputType="textEmailAddress" />
 
@@ -126,10 +139,7 @@
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_marginEnd="@dimen/activity_horizontal_margin"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:src="@drawable/baseline_location_on_black_18dp"
-                android:layout_gravity="start"
                 />
 
             <EditText
@@ -138,6 +148,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginEnd="30dp"
+                android:layout_marginRight="30dp"
                 android:hint="@string/address"
                 android:inputType="textPostalAddress" />
 
@@ -154,10 +166,11 @@
 
             <EditText
                 android:id="@+id/contact_city"
-                android:layout_width="125dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginStart="65dp"
+                android:layout_marginLeft="46dp"
+                android:layout_marginStart="46dp"
+                android:layout_weight="3"
                 android:hint="@string/city"
                 android:inputType="textPostalAddress"
                 android:gravity="start"/>
@@ -178,6 +191,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginEnd="30dp"
+                android:layout_marginRight="30dp"
                 android:hint="@string/zip"
                 android:inputType="textPostalAddress" />
 
@@ -195,8 +210,6 @@
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_marginEnd="@dimen/activity_horizontal_margin"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:src="@drawable/baseline_question_answer_black_18dp" />
 
             <EditText
@@ -206,6 +219,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginEnd="30dp"
+                android:layout_marginRight="30dp"
                 android:hint="@string/query"
                 android:inputType="text" />
 
@@ -220,8 +235,6 @@
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_marginEnd="@dimen/activity_horizontal_margin"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:src="@drawable/baseline_notes_black_18dp" />
 
             <EditText
@@ -231,6 +244,8 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginEnd="30dp"
+                android:layout_marginRight="30dp"
                 android:hint="@string/notes"
                 android:inputType="textMultiLine"
                 android:gravity ="start"/>

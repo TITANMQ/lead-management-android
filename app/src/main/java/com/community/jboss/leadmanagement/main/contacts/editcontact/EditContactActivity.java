@@ -3,6 +3,8 @@ package com.community.jboss.leadmanagement.main.contacts.editcontact;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
@@ -10,7 +12,10 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.community.jboss.leadmanagement.R;
 import com.community.jboss.leadmanagement.data.entities.ContactNumber;
@@ -25,6 +30,10 @@ public class EditContactActivity extends AppCompatActivity {
 
     @BindView(R.id.add_contact_toolbar)
     android.support.v7.widget.Toolbar toolbar;
+    @BindView((R.id.contact_avatar))
+    ImageView contactAvatar;
+    @BindView(R.id.select_image_btn)
+    Button select_image_btn;
     @BindView(R.id.contact_name_field)
     EditText contactNameField;
     @BindView(R.id.contact_number_field)
@@ -35,7 +44,7 @@ public class EditContactActivity extends AppCompatActivity {
     EditText contactNotesField;
 
     private EditContactActivityViewModel mViewModel;
-
+    private boolean image = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -55,9 +64,13 @@ public class EditContactActivity extends AppCompatActivity {
         mViewModel.getContact().observe(this, contact -> {
             if (contact == null || mViewModel.isNewContact()) {
                 setTitle(R.string.title_add_contact);
+                image = false;
             } else {
                 setTitle(R.string.title_edit_contact);
                 contactNameField.setText(contact.getName());
+                contactAvatar.setImageBitmap(contact.getAvatarBitmap());
+                contactEmailField.setText(contact.getEmail());
+                image = true;
             }
         });
         mViewModel.getContactNumbers().observe(this, contactNumbers -> {
@@ -84,6 +97,17 @@ public class EditContactActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+
+        if(image)
+        {
+            contactAvatar.setVisibility(View.INVISIBLE);
+            select_image_btn.setVisibility(View.VISIBLE);
+        }
+        else
+            {
+                contactAvatar.setVisibility(View.VISIBLE);
+                select_image_btn.setVisibility(View.VISIBLE);
+            }
     }
 
     @Override
@@ -126,11 +150,17 @@ public class EditContactActivity extends AppCompatActivity {
 
 
         final String name = contactNameField.getText().toString();
-        mViewModel.saveContact(name);
+        final Drawable avatar = contactAvatar.getDrawable();
+        final String email = contactEmailField.getText().toString();
+        mViewModel.saveContact(name,avatar, email);
 
         final String number = contactNumberField.getText().toString();
         mViewModel.saveContactNumber(number);
-        final String email = contactEmailField.getText().toString();
+
+
+
+
+
 
 
         finish();
@@ -150,5 +180,33 @@ public class EditContactActivity extends AppCompatActivity {
             return false;
         }
         return true;
+    }
+
+    private void setContactImage()
+    {
+
+    }
+
+    public void onClick(View view)
+    {
+        Intent intent = new Intent()
+                .setType("*/*")
+                .setAction(Intent.ACTION_GET_CONTENT);
+
+        startActivityForResult(Intent.createChooser(intent, "Select a file"), 123);
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==123 && resultCode==RESULT_OK) {
+            Uri selectedfile = data.getData(); //The uri with the location of the file
+
+            contactAvatar.setImageURI(selectedfile);
+            contactAvatar.setVisibility(View.VISIBLE);
+            select_image_btn.setText("Change Image");
+            contactAvatar.getDrawable();
+        }
     }
 }

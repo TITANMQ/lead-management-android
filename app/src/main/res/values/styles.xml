@@ -26,6 +26,7 @@
 
     <style name="AppTheme.DarkPopupOverlay" parent="ThemeOverlay.AppCompat" />
 
+
     <style name="AppTheme.Dark" parent="Theme.AppCompat">
         <!-- Dark theme base colours -->
         <item name="colorPrimary">@color/darkColorPrimary</item>
