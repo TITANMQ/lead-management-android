@@ -1,8 +1,10 @@
 package com.community.jboss.leadmanagement.main.contacts.importcontact;
 
 
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -25,6 +27,8 @@ import java.util.UUID;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.community.jboss.leadmanagement.SettingsActivity.PREF_DARK_THEME;
+
 public class ImportContactActivity extends AppCompatActivity {
 
     @BindView(R.id.importContactRecycler)
@@ -36,6 +40,12 @@ public class ImportContactActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean useDarkTheme = preferences.getBoolean(PREF_DARK_THEME, false);
+
+        if(useDarkTheme) {
+            setTheme(R.style.AppTheme_Dark);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_import_contact);
         setTitle(R.string.import_contacts);
@@ -99,10 +109,13 @@ public class ImportContactActivity extends AppCompatActivity {
                         .replace(")","")
                         .replace(" ","")
                         .replace("-","");
-                ImportContact contact = new ImportContact(name,number);
-                contacts.add(contact);
+                if(numberDao.getContactNumber(number)==null) {
+                    ImportContact contact = new ImportContact(name, number);
+                    contacts.add(contact);
+                }
             } while (people.moveToNext());
         }
+        people.close();
         return contacts;
     }
 

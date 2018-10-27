@@ -5,7 +5,8 @@
     android:layout_gravity="center"
     android:background="@color/colorPopup"
     android:orientation="vertical"
-    android:padding="10dp">
+    android:padding="10dp"
+    android:id="@+id/popupLayout">
 
     <TextView
         android:id="@+id/txt_close"
@@ -192,7 +193,8 @@
                             android:layout_marginStart="20dp"
                             android:text="sabaxuxunashvili@gmail.com"
                             android:textColor="@android:color/black"
-                            android:textSize="17sp" />
+                            android:textSize="17sp"
+                            android:id="@+id/popupMail"/>
 
                     </LinearLayout>
 

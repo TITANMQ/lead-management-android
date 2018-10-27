@@ -3,6 +3,7 @@
     android:background="@color/colorPrimary"
     android:layout_marginLeft="50dp"
     android:layout_marginRight="50dp"
+    android:id="@+id/dialog_layout"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <ImageView
