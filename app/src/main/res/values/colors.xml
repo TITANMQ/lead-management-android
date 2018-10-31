@@ -7,4 +7,35 @@
     <color name="darkColorPrimary">#04bcf4</color>
     <color name="darkColorPrimaryDark">#153f87</color>
     <color name="darkColorAccent">#FF4081</color>
+
+    <color name="logo_lighter_blue">#0EDDFE </color>
+    <color name="logo_white">#FFFFFF</color>
+    <color name="logo_darker_blue">#13AAFC</color>
+    <color name="light_logo_darker">#6cdbff</color>
+    <color name="dark_logo_darker">#007bc8</color>
+
+    <color name="dot_inactive_screen1">#c1bfbf</color>
+    <color name="dot_inactive_screen2">#c1bfbf</color>
+    <color name="dot_inactive_screen3">#c1bfbf</color>
+    <color name="dot_inactive_screen4">#c1bfbf</color>
+
+    <color name="dot_active_screen1">#FFFFFF</color>
+    <color name="dot_active_screen2">#FFFFFF</color>
+    <color name="dot_active_screen3">#FFFFFF</color>
+    <color name="dot_active_screen4">#FFFFFF</color>
+
+    <array name="array_dot_active">
+        <item>@color/dot_active_screen1</item>
+        <item>@color/dot_active_screen2</item>
+        <item>@color/dot_active_screen3</item>
+        <item>@color/dot_active_screen4</item>
+    </array>
+    <array name="array_dot_inactive">
+        <item>@color/dot_inactive_screen1</item>
+        <item>@color/dot_inactive_screen2</item>
+        <item>@color/dot_inactive_screen3</item>
+        <item>@color/dot_inactive_screen4</item>
+    </array>
+
+
 </resources>

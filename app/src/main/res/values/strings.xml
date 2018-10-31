@@ -19,6 +19,30 @@
     <string name="title_groups">Groups</string>
     <string name="name">Name</string>
     <string name="phone">Phone</string>
+    <string name="address">Address</string>
+    <string name="city">City</string>
+    <string name="state">State</string>
+    <string name="zip">Zip</string>
+    <string name="notes">Call notes</string>
+    <string name="query">Query </string>
+    <string name="surname">Surname</string>
+
+    <string name="slide1_title">Add contacts!</string>
+    <string name="slide1_desc">Save contact details and information</string>
+    <string name="slide2_title">Create groups!</string>
+    <string name="slide2_desc">Communicate with multiple people in a group</string>
+    <string name="slide3_title">Call contacts!</string>
+    <string name="slide3_desc">Call contacts and save what was said in the call</string>
+    <string name="slide4_title">Message contacts!</string>
+    <string name="slide4_desc">Communicate with your contacts using text messaging</string>
+
+    <string name="next">Next</string>
+    <string name="skip">Skip</string>
+    <string name="start">Start</string>
+
+    <string name="notification_Save">Save Contact </string>
+
+    <string name="logout">Logout</string>
 
 
     <string name="title_add_contact">Add Contact</string>
