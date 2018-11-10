@@ -28,7 +28,10 @@ import android.widget.TextView;
 import android.graphics.Color;
 
 import static com.community.jboss.leadmanagement.SettingsActivity.PREF_DARK_THEME;
+import static com.community.jboss.leadmanagement.main.contacts.editcontact.EditContactActivity.bytesToBitmap;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.community.jboss.leadmanagement.CustomDialogBox;
 import com.community.jboss.leadmanagement.PermissionManager;
 import com.community.jboss.leadmanagement.R;
@@ -37,6 +40,7 @@ import com.community.jboss.leadmanagement.data.daos.ContactNumberDao;
 import com.community.jboss.leadmanagement.data.entities.Contact;
 import com.community.jboss.leadmanagement.main.contacts.editcontact.EditContactActivity;
 import com.community.jboss.leadmanagement.utils.DbUtil;
+import com.mikhaellopez.circularimageview.CircularImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -130,7 +134,9 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
         @BindView(R.id.contact_number)
         TextView number;
         @BindView(R.id.contact_avatar)
+
         ImageView avatar;
+
         @BindView(R.id.contact_delete)
         ImageButton deleteButton;
 
@@ -193,11 +199,20 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
             TextView popupName;
             TextView contactNum;
             TextView mail;
+            TextView location;
+            TextView notes;
+            TextView notes_hint;
             Button btnEdit;
             Button btnCall;
             Button btnMsg;
             ImageView avatarImg;
             LinearLayout layout;
+            ImageView image;
+
+            ImageView helper_email;
+            ImageView helper_phone;
+            ImageView helper_adress;
+            ImageView helper_notes;
 
             detailDialog.setContentView(R.layout.popup_detail);
             avatarImg = detailDialog.findViewById(R.id.popup_avatar);
@@ -209,6 +224,15 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
             btnMsg = detailDialog.findViewById(R.id.btn_msg);
             mail = detailDialog.findViewById(R.id.popupMail);
             layout = detailDialog.findViewById(R.id.popupLayout);
+            image = detailDialog.findViewById(R.id.details_image);
+            location = detailDialog.findViewById(R.id.details_adress);
+            notes = detailDialog.findViewById(R.id.details_note);
+            notes_hint = detailDialog.findViewById(R.id.details_note_hint);
+
+            helper_email = detailDialog.findViewById(R.id.popup_helper_email);
+            helper_phone = detailDialog.findViewById(R.id.popup_helper_phone);
+            helper_adress = detailDialog.findViewById(R.id.popup_helper_adress);
+            helper_notes = detailDialog.findViewById(R.id.popup_helper_note);
 
 
 
@@ -217,7 +241,16 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ViewHo
                 popupName.setTextColor(Color.WHITE);
                 contactNum.setTextColor(Color.WHITE);
                 mail.setTextColor(Color.WHITE);
+                location.setTextColor(Color.WHITE);
+                notes.setTextColor(Color.WHITE);
+                notes_hint.setTextColor(Color.WHITE);
+
+
                 txtClose.setBackground(mContext.getResources().getDrawable(R.drawable.ic_close_white));
+                helper_email.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_email_white));
+                helper_phone.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_phone_white));
+                helper_adress.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_location_white));
+                helper_notes.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_notes_white));
             }
 
             avatarImg.setImageBitmap(mContact.getAvatarBitmap());
