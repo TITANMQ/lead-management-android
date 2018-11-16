@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId "com.community.jboss.leadmanagement"
-        minSdkVersion 16
+        minSdkVersion 17
         targetSdkVersion rootProject.ext.compileSdkVersion
         versionCode 1
         versionName "1.0"
@@ -47,6 +47,7 @@ dependencies {
     //Cardview androidX
     implementation 'androidx.cardview:cardview:1.0.0'
 
+
     // Test
     implementation 'com.android.support:support-v4:27.0.2'
     implementation 'com.android.support:design:27.0.2'
@@ -83,6 +84,9 @@ dependencies {
     //Glide
     implementation 'com.github.bumptech.glide:glide:4.4.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.4.0'
+
+    // Info Slider
+    implementation 'com.github.msayan:tutorial-view:v1.0.6'
 }
 
 //apply plugin: 'com.google.gms.google-services'
