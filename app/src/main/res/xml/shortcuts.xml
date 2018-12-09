@@ -1,0 +1,19 @@
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:shortcutId="add_contact_id"
+        android:enabled="true"
+        android:icon="@drawable/baseline_person_add_black_18dp"
+        android:shortcutShortLabel="@string/add_contact"
+        android:shortcutLongLabel="@string/add_contact"
+        android:shortcutDisabledMessage="@string/shortcutDisabled">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="com.community.jboss.leadmanagement.main.contacts.editcontact.EditContactActivity"
+            android:targetPackage="com.community.jboss.leadmanagement.main.contacts.editcontact"/>
+        <!-- If your shortcut is associated with multiple intents, include them
+             here. The last intent in the list determines what the user sees when
+             they launch this shortcut. -->
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+    <!-- Specify more shortcuts here. -->
+</shortcuts>
