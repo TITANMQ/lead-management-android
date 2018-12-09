@@ -25,9 +25,12 @@ public class Contact {
     private byte[] avatar;
     private String email;
 
+
     @Ignore
     public Contact(String name) {
-        this(UUID.randomUUID().toString(), name);
+        this.id = UUID.randomUUID().toString();
+        this.name = name;
+        this.mail = "";
     }
     @Ignore
     public Contact(@NonNull String id, String name) {
@@ -50,6 +53,46 @@ public class Contact {
 
     public String getName() {
         return name;
+    }
+
+    public String getMail() {
+        return mail;
+    }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+
+    public String getQuery() {
+        return query;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
+    public void setQuery(String query) {
+        this.query = query;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
     }
 
     public void setName(String name) {
