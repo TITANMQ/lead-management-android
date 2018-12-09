@@ -1,15 +1,22 @@
 package com.community.jboss.leadmanagement.main.contacts.editcontact;
 
+import android.app.Activity;
+import android.appwidget.AppWidgetManager;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,13 +24,22 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.community.jboss.leadmanagement.R;
 import com.community.jboss.leadmanagement.data.entities.ContactNumber;
+import com.community.jboss.leadmanagement.widgets.RecentContactsProvider;
+
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.community.jboss.leadmanagement.SettingsActivity.PREF_DARK_THEME;
+import static com.community.jboss.leadmanagement.SettingsFragment.PREF_DARK_THEME;
+
 
 public class EditContactActivity extends AppCompatActivity {
     public static final String INTENT_EXTRA_CONTACT_NUM = "INTENT_EXTRA_CONTACT_NUM";
@@ -34,14 +50,16 @@ public class EditContactActivity extends AppCompatActivity {
     ImageView contactAvatar;
     @BindView(R.id.select_image_btn)
     Button select_image_btn;
+
     @BindView(R.id.contact_name_field)
-    EditText contactNameField;
+    TextInputEditText contactNameField;
     @BindView(R.id.contact_number_field)
     EditText contactNumberField;
     @BindView(R.id.contact_email_field)
     EditText contactEmailField;
     @BindView(R.id.contact_notes_field)
     EditText contactNotesField;
+
 
     private EditContactActivityViewModel mViewModel;
     private boolean image = false;
@@ -59,6 +77,15 @@ public class EditContactActivity extends AppCompatActivity {
         setContentView(R.layout.create_contact);
 
         ButterKnife.bind(this);
+        if(useDarkTheme) {
+            setDrawableLeft(locationField, R.drawable.ic_location_white);
+            setDrawableLeft(emailField, R.drawable.ic_email_white);
+            setDrawableLeft(contactNameField, R.drawable.ic_person_white);
+            setDrawableLeft(contactNumberField, R.drawable.ic_phone_white);
+            setDrawableLeft(queryField, R.drawable.ic_question_white);
+            setDrawableLeft(notesField, R.drawable.ic_notes_white);
+        }
+
 
         mViewModel = ViewModelProviders.of(this).get(EditContactActivityViewModel.class);
         mViewModel.getContact().observe(this, contact -> {
@@ -68,9 +95,11 @@ public class EditContactActivity extends AppCompatActivity {
             } else {
                 setTitle(R.string.title_edit_contact);
                 contactNameField.setText(contact.getName());
+
                 contactAvatar.setImageBitmap(contact.getAvatarBitmap());
                 contactEmailField.setText(contact.getEmail());
                 image = true;
+
             }
         });
         mViewModel.getContactNumbers().observe(this, contactNumbers -> {
@@ -98,6 +127,7 @@ public class EditContactActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
+
         if(image)
         {
             contactAvatar.setVisibility(View.INVISIBLE);
@@ -108,6 +138,7 @@ public class EditContactActivity extends AppCompatActivity {
                 contactAvatar.setVisibility(View.VISIBLE);
                 select_image_btn.setVisibility(View.VISIBLE);
             }
+
     }
 
     @Override
@@ -142,20 +173,29 @@ public class EditContactActivity extends AppCompatActivity {
     //TODO Add multiple numbers
     private void saveContact() {
         // Check is Name or Password is empty
+
         if (!checkEditText(contactNameField, "Please enter name")||!checkNo(contactNumberField,"Enter Correct no.")
                 || !checkEditText(contactNumberField, "Please enter number")||
                 !checkEditText(contactEmailField, "Please enter email address")) {
+
             return;
         }
 
+        // on save / update contact info, update widget too
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
+        int appWidgetIds[] = appWidgetManager.getAppWidgetIds(new ComponentName(this, RecentContactsProvider.class));
+        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.words);
 
         final String name = contactNameField.getText().toString();
+
         final Drawable avatar = contactAvatar.getDrawable();
         final String email = contactEmailField.getText().toString();
         mViewModel.saveContact(name,avatar, email);
 
+
         final String number = contactNumberField.getText().toString();
         mViewModel.saveContactNumber(number);
+        mViewModel.saveData(email, location, query, image, notes);
 
 
 
@@ -164,6 +204,16 @@ public class EditContactActivity extends AppCompatActivity {
 
 
         finish();
+    }
+
+    private byte[] bitmapToBytes(Bitmap bitmap) {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        return stream.toByteArray();
+    }
+
+    public static Bitmap bytesToBitmap(byte[] bytes){
+        return BitmapFactory.decodeByteArray(bytes , 0, bytes.length);
     }
 
     private boolean checkEditText(EditText editText, String errorStr) {
@@ -181,6 +231,7 @@ public class EditContactActivity extends AppCompatActivity {
         }
         return true;
     }
+
     
 
     public void onClick(View view)
@@ -193,9 +244,11 @@ public class EditContactActivity extends AppCompatActivity {
     }
 
 
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         if(requestCode==123 && resultCode==RESULT_OK) {
             Uri selectedfile = data.getData(); //The uri with the location of the file
 
@@ -203,6 +256,7 @@ public class EditContactActivity extends AppCompatActivity {
             contactAvatar.setVisibility(View.VISIBLE);
             select_image_btn.setText("Change Image");
             contactAvatar.getDrawable();
+
         }
     }
 }

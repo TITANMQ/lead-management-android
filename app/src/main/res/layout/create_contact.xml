@@ -19,7 +19,7 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -53,10 +53,11 @@
         </LinearLayout>
 
         <LinearLayout
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp">
 
             <ImageView
                 android:layout_width="30dp"
@@ -74,7 +75,11 @@
                 android:hint="@string/name"
                 android:inputType="text"/>
 
-        </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
 
 
         <LinearLayout
@@ -101,7 +106,8 @@
                 android:hint="@string/phone"
                 android:inputType="number" />
 
-        </LinearLayout>
+                    </android.support.design.widget.TextInputLayout>
+                </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -255,4 +261,7 @@
 
     </LinearLayout>
 
+
+        </RelativeLayout>
+    </ScrollView>
 </LinearLayout>
