@@ -38,7 +38,16 @@
             android:theme="@style/Theme.Design.Light.NoActionBar">
         </activity>
 
-        <receiver
+
+        <receiver android:name=".main.contacts.widgets.AddContactWidgetProvider" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider"
+                android:resource="@xml/add_contact_widget_info" />
+        </receiver>
+
+    <receiver
             android:name=".CallReceiver"
             android:enabled="true"
             android:exported="true">
